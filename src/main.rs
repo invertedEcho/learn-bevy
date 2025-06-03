@@ -238,7 +238,9 @@ pub fn enemy_hit_player(
 
             if distance < player_radius + enemy_radius {
                 println!("Enemy hit player! Game over!");
-                AudioPlayer::new(asset_server.load("audio/explosionCrunch_000.ogg"));
+                commands.spawn(AudioPlayer::new(
+                    asset_server.load("audio/explosionCrunch_000.ogg"),
+                ));
                 commands.entity(player_entity).despawn();
             }
         }
