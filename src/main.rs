@@ -1,27 +1,29 @@
 use bevy::app::AppExit;
 use bevy::{prelude::*, window::PrimaryWindow};
-use enemy::EnemyPlugin;
-use player::PlayerPlugin;
-use score::ScorePlugin;
-use star::StarPlugin;
+use game::GamePlugin;
+use main_menu::MainMenuPlugin;
 
-mod enemy;
-mod player;
-mod score;
-mod star;
+mod game;
+mod main_menu;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugins(PlayerPlugin {})
-        .add_plugins(EnemyPlugin {})
-        .add_plugins(StarPlugin {})
-        .add_plugins(ScorePlugin {})
-        .add_event::<GameOver>()
+        .init_state::<AppState>()
+        .add_plugins(GamePlugin)
+        .add_plugins(MainMenuPlugin)
         .add_systems(Startup, spawn_camera)
         .add_systems(Update, exit_game)
         .add_systems(Update, handle_game_over)
         .run();
+}
+
+#[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
+pub enum AppState {
+    #[default]
+    MainMenu,
+    Game,
+    GameOver,
 }
 
 #[derive(Event)]

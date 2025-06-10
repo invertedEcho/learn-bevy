@@ -1,11 +1,13 @@
-use crate::{
-    enemy::components::Enemy,
-    score::resources::Score,
-    star::{STAR_SIZE, components::Star},
-};
 use bevy::{prelude::*, window::PrimaryWindow};
 
-use crate::{GameOver, enemy::ENEMY_SPRITE_SIZE};
+use crate::{
+    GameOver,
+    game::{
+        enemy::{ENEMY_SPRITE_SIZE, components::Enemy},
+        score::resources::Score,
+        star::{STAR_SIZE, components::Star},
+    },
+};
 
 use super::{PLAYER_SPEED, PLAYER_SPRITE_SIZE, PLAYER_SPRITE_SRC, components::Player};
 

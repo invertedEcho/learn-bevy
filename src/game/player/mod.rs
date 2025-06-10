@@ -3,6 +3,10 @@ use systems::{
     confine_player_movement, enemy_hit_player, player_hit_star, player_movement, spawn_player,
 };
 
+use crate::AppState;
+
+use super::SimulationState;
+
 mod components;
 mod systems;
 
@@ -20,10 +24,16 @@ pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.configure_sets(Update, MovementSystemSet.before(ConfinementSystemSet))
-            .add_systems(Startup, spawn_player)
-            .add_systems(Update, player_movement.in_set(MovementSystemSet))
-            .add_systems(Update, confine_player_movement.in_set(ConfinementSystemSet))
-            .add_systems(Update, (enemy_hit_player, player_hit_star));
+        app.add_systems(Startup, spawn_player).add_systems(
+            Update,
+            (
+                player_movement.before(confine_player_movement),
+                confine_player_movement.after(player_movement),
+                enemy_hit_player,
+                player_hit_star,
+            )
+                .run_if(in_state(AppState::Game))
+                .run_if(in_state(SimulationState::Running)),
+        );
     }
 }
