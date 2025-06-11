@@ -25,7 +25,9 @@ impl Plugin for GamePlugin {
             .add_plugins(ScorePlugin {})
             .add_systems(Update, toggle_simulation.run_if(in_state(AppState::Game)))
             .add_systems(Update, transitition_to_game_state)
-            .add_systems(Update, transition_to_main_menu_state);
+            .add_systems(Update, transition_to_main_menu_state)
+            .add_systems(OnEnter(AppState::Game), pause_simulation)
+            ;
     }
 }
 
