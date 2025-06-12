@@ -52,7 +52,7 @@ pub fn transition_to_main_menu_state(
 ) {
     if keyboard_input.pressed(KeyCode::KeyM) {
         if *app_state.get() != AppState::MainMenu {
-            println!("Setting AppStateo to MainMenu");
+            println!("Setting AppState to MainMenu");
             next_app_state.set(AppState::MainMenu);
         }
     }
